@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>網絡隱私大挑戰</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f8ff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+    }
+
+    .game-container {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .score-board {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        color: #555;
+    }
+
+    .item-display {
+        background-color: #e8f4f8;
+        border: 3px dashed #3498db;
+        border-radius: 10px;
+        padding: 30px;
+        margin: 20px 0;
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #2980b9;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2em;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+        font-weight: bold;
+        width: 150px;
+    }
+
+    .btn:active {
+        transform: scale(0.95);
+    }
+
+    .btn-safe {
+        background-color: #2ecc71;
+        color: white;
+        box-shadow: 0 5px 0 #27ae60;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+        box-shadow: 0 5px 0 #c0392b;
+    }
+
+    .feedback {
+        margin-top: 20px;
+        font-size: 1.1em;
+        min-height: 1.2em;
+        font-weight: bold;
+    }
+
+    .feedback.correct { color: #27ae60; }
+    .feedback.wrong { color: #c0392b; }
+
+    .progress-bar {
+        width: 100%;
+        height: 10px;
+        background-color: #ddd;
+        border-radius: 5px;
+        margin-top: 20px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background-color: #3498db;
+        width: 0%;
+        transition: width 0.3s;
+    }
+
+    .end-screen {
+        display: none;
+    }
+
+    .restart-btn {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 1em;
+    }
+
+</style>
+</head>
+<body>
+
+    <h1>🛡️ 網絡隱私大挑戰 🛡️</h1>
+    <p>如果陌生人在網上問你這些，你可以告訴他嗎？</p>
+
+    <div class="game-container">
+        <div id="game-screen">
+            <div class="score-board">得分: <span id="score">0</span></div>
+            
+            <div class="item-display" id="current-item">準備好了嗎？</div>
+            
+            <div class="buttons">
+                <button class="btn btn-safe" onclick="checkAnswer(true)">✅ 可以說</button>
+                <button class="btn btn-danger" onclick="checkAnswer(false)">❌ 這是秘密</button>
+            </div>
+
+            <div class="feedback" id="feedback-text"></div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+
+        <div id="end-screen" class="end-screen">
+            <h2>挑戰完成！</h2>
+            <p>你真的很懂得保護自己！</p>
+            <p>最終得分: <span id="final-score">0</span> / <span id="total-questions">0</span></p>
+            <button class="restart-btn" onclick="restartGame()">再玩一次</button>
+        </div>
+    </div>
+
+<script>
+    // 題目設定： text 是顯示文字, safe 是是否安全 (true=安全/公開, false=危險/隱私)
+    // explanation 是解釋
+    const questions = [
+        { text: "我最喜歡的顏色", safe: true, explanation: "沒錯！喜歡什麼顏色通常不會讓壞人找到你。" },
+        { text: "我的真實姓名", safe: false, explanation: "危險！在網上最好使用暱稱，不要用真名。" },
+        { text: "我就讀的小學名稱", safe: false, explanation: "危險！壞人知道學校就能在放學時找到你。" },
+        { text: "我覺得好笑的笑話", safe: true, explanation: "可以！分享快樂是很棒的事情。" },
+        { text: "我家的詳細地址", safe: false, explanation: "超級危險！地址絕對不能告訴網友！" },
+        { text: "爸爸媽媽的手機號碼", safe: false, explanation: "危險！這是家人的隱私，不能隨便給。" },
+        { text: "我今天心情很好", safe: true, explanation: "可以！分享心情通常是安全的。" },
+        { text: "我穿著校服的照片", safe: false, explanation: "危險！校服上的標誌會洩露你就讀的學校。" },
+        { text: "我的網絡遊戲密碼", safe: false, explanation: "危險！密碼就像家裡鑰匙，絕對不能給別人！" },
+        { text: "我最喜歡的卡通人物", safe: true, explanation: "沒錯！這屬於個人興趣，是安全的。" }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let isAnswering = false; // 防止重複點擊
+
+    function initGame() {
+        currentQuestionIndex = 0;
+        score = 0;
+        document.getElementById('score').innerText = score;
+        document.getElementById('game-screen').style.display = 'block';
+        document.getElementById('end-screen').style.display = 'none';
+        updateProgressBar();
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const itemDisplay = document.getElementById('current-item');
+        const feedbackText = document.getElementById('feedback-text');
+        
+        itemDisplay.innerText = questions[currentQuestionIndex].text;
+        feedbackText.innerText = "";
+        feedbackText.className = "feedback";
+        isAnswering = true;
+    }
+
+    function checkAnswer(userSaysSafe) {
+        if (!isAnswering) return;
+        isAnswering = false;
+
+        const currentQ = questions[currentQuestionIndex];
+        const feedbackText = document.getElementById('feedback-text');
+        
+        // 邏輯判斷
+        const isCorrect = (userSaysSafe === currentQ.safe);
+
+        if (isCorrect) {
+            score++;
+            document.getElementById('score').innerText = score;
+            feedbackText.innerText = "答對了！ " + currentQ.explanation;
+            feedbackText.classList.add("correct");
+        } else {
+            feedbackText.innerText = "哎呀！ " + currentQ.explanation;
+            feedbackText.classList.add("wrong");
+        }
+
+        updateProgressBar();
+
+        // 延遲進入下一題
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                showQuestion();
+            } else {
+                endGame();
+            }
+        }, 2500); // 2.5秒後下一題，讓學生有時間看解釋
+    }
+
+    function updateProgressBar() {
+        const progress = ((currentQuestionIndex + (isAnswering ? 0 : 1)) / questions.length) * 100;
+        document.getElementById('progress').style.width = progress + "%";
+    }
+
+    function endGame() {
+        document.getElementById('game-screen').style.display = 'none';
+        document.getElementById('end-screen').style.display = 'block';
+        document.getElementById('final-score').innerText = score;
+        document.getElementById('total-questions').innerText = questions.length;
+    }
+
+    function restartGame() {
+        initGame();
+    }
+
+    // 開始遊戲
+    initGame();
+
+</script>
+
+</body>
+</html>
