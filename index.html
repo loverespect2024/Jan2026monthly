@@ -3,18 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>友愛童盟1 月月刊
-新年新挑戰 - 做手機的主人
-</title>
+<title>友愛童盟 1月月刊 - 新年新挑戰</title>
 <style>
     :root {
         --primary-color: #4a90e2;
         --bg-color: #f0f4f8;
         --card-bg: #ffffff;
+        --text-color: #2c3e50;
     }
 
     body {
-        font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+        font-family: 'Microsoft JhengHei', 'PingFang TC', sans-serif;
         background-color: var(--bg-color);
         margin: 0;
         padding: 0;
@@ -22,20 +21,58 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        color: var(--text-color);
     }
 
-    /* 通用樣式 */
+    /* --- Logo 區域樣式 --- */
+    .logo-header {
+        width: 100%;
+        background-color: #fff;
+        padding: 15px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .logo-img {
+        max-width: 90%;
+        height: auto;
+        max-height: 120px; /* 稍微放寬高度限制 */
+        object-fit: contain;
+    }
+
+    /* 圖片佔位框 (若無圖片時顯示) */
+    .logo-placeholder {
+        width: 90%;
+        max-width: 800px;
+        height: 80px;
+        background-color: #f8f9fa;
+        border: 2px dashed #bdc3c7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7f8c8d;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    /* --- 通用頁面樣式 --- */
     .page-section {
         width: 100%;
         max-width: 800px;
         padding: 20px;
         box-sizing: border-box;
-        display: none; /* 預設隱藏所有頁面 */
+        display: none;
         animation: fadeIn 0.5s;
+        padding-bottom: 50px;
     }
 
     .active-page {
-        display: block; /* 只顯示當前頁面 */
+        display: block;
     }
 
     @keyframes fadeIn {
@@ -43,47 +80,43 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 返回按鈕樣式 */
+    /* 返回按鈕 */
     .back-btn {
         display: inline-flex;
         align-items: center;
         background-color: #95a5a6;
         color: white;
         border: none;
-        padding: 10px 20px;
+        padding: 8px 20px;
         border-radius: 50px;
         cursor: pointer;
         font-size: 1rem;
         margin-bottom: 20px;
         transition: background 0.3s;
     }
+    .back-btn:hover { background-color: #7f8c8d; }
+    .back-btn span { margin-right: 8px; }
 
-    .back-btn:hover {
-        background-color: #7f8c8d;
-    }
-
-    .back-btn span {
-        margin-right: 8px;
-    }
-
-    /* --- 主選單樣式 (Home) --- */
-    .home-header {
+    /* --- 主選單 (Home) --- */
+    .home-title {
         text-align: center;
-        margin-bottom: 40px;
-        margin-top: 40px;
+        margin-bottom: 30px;
     }
-
-    .home-header h1 {
+    .home-title h1 {
         color: #2c3e50;
-        font-size: 2.5rem;
-        margin-bottom: 10px;
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+    .home-title h2 {
+        color: #e67e22;
+        font-size: 1.5rem;
+        margin: 5px 0;
     }
 
     .menu-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-        padding: 20px;
+        gap: 25px;
     }
 
     .menu-card {
@@ -91,69 +124,77 @@
         border-radius: 20px;
         padding: 30px;
         text-align: center;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         cursor: pointer;
         transition: transform 0.3s, box-shadow 0.3s;
-        border: 2px solid transparent;
+        border: 3px solid transparent;
+        position: relative;
+        overflow: hidden;
     }
-
     .menu-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-5px);
         box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     }
 
-    .card-icon {
-        font-size: 80px;
-        margin-bottom: 20px;
-    }
+    .card-boss:hover { border-color: #d35400; }
+    .card-privacy:hover { border-color: #27ae60; }
 
-    .card-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 10px;
-        color: #333;
-    }
+    .card-icon { font-size: 70px; margin-bottom: 15px; }
+    .card-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 10px; color: #333; }
+    .card-desc { color: #666; font-size: 0.95rem; line-height: 1.5; }
 
-    .card-desc {
-        color: #666;
-        line-height: 1.6;
-    }
-
-    /* 頑固老闆卡片特別色 */
-    .card-boss:hover { border-color: #e67e22; }
-    .card-boss .card-icon { animation: bounce 2s infinite; }
-
-    /* 隱私挑戰卡片特別色 */
-    .card-privacy:hover { border-color: #2ecc71; }
-    
-    /* --- 活動 1: 頑固老闆樣式 --- */
-    .boss-game-container {
+    /* --- 活動 1: 頑固老闆 --- */
+    .boss-container {
         background: white;
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         text-align: center;
-    }
-    .boss-speech-bubble {
-        background: #333; color: white; padding: 15px 25px;
-        border-radius: 20px; display: inline-block; margin-bottom: 30px;
-        font-size: 1.2em; font-weight: bold; position: relative;
-        transition: background-color 0.3s;
-    }
-    .boss-options-grid {
-        display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-    }
-    .boss-food-card {
-        background: #fdf2e9; border: 3px solid #e67e22; border-radius: 15px;
-        padding: 20px; cursor: pointer; transition: 0.2s;
-    }
-    .boss-food-card:hover { transform: scale(1.05); background: #fae5d3; }
-    .boss-explanation-box {
-        background-color: #e8f6f3; border: 2px dashed #1abc9c;
-        padding: 20px; border-radius: 15px; margin-top: 20px; text-align: left;
+        border-top: 6px solid #d35400;
     }
 
-    /* 震動動畫 (用於老闆拒絕時) */
+    .boss-avatar { font-size: 80px; margin-bottom: 10px; display: inline-block; }
+    
+    .boss-speech-bubble {
+        background: #333;
+        color: white;
+        padding: 20px;
+        border-radius: 20px;
+        border-bottom-left-radius: 0;
+        display: inline-block;
+        margin-bottom: 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        position: relative;
+        max-width: 90%;
+        transition: all 0.3s;
+        box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+    }
+    
+    .boss-options-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .boss-food-card {
+        background: #fdf2e9;
+        border: 3px solid #e67e22;
+        border-radius: 15px;
+        padding: 15px;
+        cursor: pointer;
+        transition: 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 110px;
+    }
+    .boss-food-card:hover { transform: scale(1.05); background: #fae5d3; }
+    .boss-food-card:active { transform: scale(0.95); }
+
+    /* 拒絕動畫 */
     @keyframes shake {
         0% { transform: translate(1px, 1px) rotate(0deg); }
         10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -167,44 +208,46 @@
         90% { transform: translate(1px, 2px) rotate(0deg); }
         100% { transform: translate(1px, -2px) rotate(-1deg); }
     }
-    .shake-effect {
-        animation: shake 0.5s;
+    .shake-effect { animation: shake 0.5s; }
+
+    .boss-explanation-box {
+        background-color: #e8f6f3;
+        border: 2px dashed #1abc9c;
+        padding: 25px;
+        border-radius: 15px;
+        margin-top: 30px;
+        text-align: left;
+        line-height: 1.6;
     }
 
-    /* --- 活動 2: 隱私挑戰樣式 --- */
+    /* --- 活動 2: 隱私保險箱 --- */
     .privacy-container {
         background: white;
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         text-align: center;
-        border-top: 5px solid #2ecc71;
+        border-top: 6px solid #27ae60;
     }
-    
-    .privacy-question-card {
+
+    .privacy-card {
         background: #f8f9fa;
         border: 2px solid #ddd;
         border-radius: 15px;
-        padding: 30px;
+        padding: 40px 20px;
         margin: 20px 0;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: bold;
         color: #2c3e50;
-        min-height: 120px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
     }
 
-    .privacy-boxes {
+    .privacy-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 20px;
-        margin-top: 20px;
     }
 
-    .privacy-box-btn {
+    .p-btn {
         padding: 20px;
         border-radius: 15px;
         border: none;
@@ -213,55 +256,65 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
     }
+    .p-btn:hover { transform: scale(1.03); }
+    .p-btn:active { transform: scale(0.98); }
 
-    .privacy-box-btn:hover { transform: scale(1.03); }
-    .privacy-box-btn:active { transform: scale(0.98); }
+    .btn-public { background: #d4e6f1; color: #2980b9; border: 3px solid #2980b9; }
+    .btn-safe { background: #fadbd8; color: #c0392b; border: 3px solid #c0392b; }
 
-    .box-public { background-color: #d4e6f1; color: #2980b9; border: 3px solid #2980b9; }
-    .box-safe { background-color: #fadbd8; color: #c0392b; border: 3px solid #c0392b; }
-
-    .box-icon { font-size: 40px; margin-bottom: 10px; }
-    .box-label { font-size: 1.2rem; font-weight: bold; }
-
-    /* 隱私回饋彈窗 */
-    .feedback-overlay {
+    /* 彈窗樣式 */
+    .overlay {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.7);
+        background: rgba(0,0,0,0.8);
         display: none;
         justify-content: center; align-items: center;
         z-index: 1000;
+        backdrop-filter: blur(3px);
     }
-    .feedback-modal {
+    .modal {
         background: white; padding: 30px; border-radius: 20px;
-        max-width: 400px; width: 90%; text-align: center;
+        max-width: 400px; width: 85%; text-align: center;
         animation: popIn 0.3s;
     }
     @keyframes popIn { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
     
-    .feedback-correct { color: #27ae60; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
-    .feedback-wrong { color: #c0392b; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
-    .feedback-reason { color: #555; margin-bottom: 20px; line-height: 1.5; font-size: 1.1rem; }
-    .next-btn {
-        background: #34495e; color: white; border: none; padding: 10px 25px;
-        border-radius: 50px; cursor: pointer; font-size: 1rem;
+    .modal-btn {
+        background: #34495e; color: white; border: none; padding: 12px 30px;
+        border-radius: 50px; cursor: pointer; font-size: 1.1rem; margin-top: 20px;
+    }
+
+    /* 進度條 */
+    .progress-bar-bg {
+        width: 100%; height: 10px; background: #eee; border-radius: 5px; margin-top: 20px; overflow: hidden;
+    }
+    .progress-bar-fill {
+        height: 100%; background: #27ae60; width: 0%; transition: width 0.3s;
     }
 
 </style>
 </head>
 <body>
 
-    <!-- ================= 主選單頁面 ================= -->
+    <!-- Logo Header -->
+    <div class="logo-header">
+        <!-- 請將下方的 src 替換為您的圖片網址 -->
+        <!-- 例如: <img src="images/logo.png" class="logo-img" alt="機構 Logo"> -->
+        <div class="logo-placeholder" id="logo-placeholder-box">
+            請在此處放入機構 Logo 圖片<br>(修改 HTML 中的 img src)
+        </div>
+        <img src="https://photos.fife.usercontent.google.com/pw/AP1GczPyOJNMqzdpKygIMoxoHh7P3y48HuysJdU3D8QrRLfuxD4TJcD09y8=w1920-h266-s-no-gm?authuser=0" class="logo-img" id="real-logo" alt="機構 Logo" style="display:none;">
+    </div>
+
+    <!-- 主選單 -->
     <div id="page-home" class="page-section active-page">
-        <div class="home-header">
-            <h1>友愛童盟1 月月刊</h1>
-            <h1>新年新挑戰 - 做手機的主人</h1>
-            <p>請選擇今天要進行的活動</p>
+        <div class="home-title">
+            <h1>友愛童盟 1月月刊</h1>
+            <h2>新年新挑戰 - 做手機的主人</h2>
+            <p style="color:#7f8c8d; margin-top:10px;">請選擇今天要進行的活動</p>
         </div>
 
         <div class="menu-grid">
-            <!-- 活動 1 按鈕 -->
             <div class="menu-card card-boss" onclick="goToPage('page-activity-1'); initBossGame();">
                 <div class="card-icon">👨‍🍳</div>
                 <div class="card-title">我是頑固老闆</div>
@@ -271,10 +324,9 @@
                 </div>
             </div>
 
-            <!-- 活動 2 按鈕 -->
             <div class="menu-card card-privacy" onclick="goToPage('page-activity-2'); initPrivacyGame();">
                 <div class="card-icon">🔐</div>
-                <div class="card-title">「隱私保險箱」</div>
+                <div class="card-title">隱私保險箱</div>
                 <div class="card-desc">
                     保護你的個人資料！<br>
                     哪些可以說？哪些要鎖進保險箱？
@@ -283,291 +335,340 @@
         </div>
     </div>
 
-    <!-- ================= 活動 1: 頑固老闆 ================= -->
+    <!-- 活動 1: 頑固老闆 -->
     <div id="page-activity-1" class="page-section">
         <button class="back-btn" onclick="goToPage('page-home')"><span>🏠</span> 返回主選單</button>
         
-        <div class="boss-game-container" id="boss-container-main">
-            <div style="font-size: 60px; margin-bottom: 10px;">👨‍🍳</div>
+        <div class="boss-container" id="boss-main-box">
+            <div class="boss-avatar">👨‍🍳</div>
             <h2 style="color: #d35400; margin-top:0;">我是頑固老闆</h2>
             
-            <!-- 遊戲區域 -->
+            <!-- 遊戲進行區 -->
             <div id="boss-game-area">
                 <div class="boss-speech-bubble" id="boss-speech">
                     歡迎光臨！今天想吃點什麼？
                 </div>
-                <div class="boss-options-grid" id="boss-options-container"></div>
+                <div class="boss-options-grid" id="boss-options"></div>
+                <div style="margin-top:20px; color:#aaa; font-size:0.9rem;">回合: <span id="boss-round-indicator">1</span>/8</div>
             </div>
 
-            <!-- 結尾教育區域 -->
-            <div id="boss-education-area" style="display:none;">
-                <div class="boss-speech-bubble" style="background:#e74c3c;">
-                    老闆：這裡只有這些，不吃拉倒！
+            <!-- 結算教育區 -->
+            <div id="boss-result-area" style="display:none;">
+                <div class="boss-speech-bubble" style="background:#c0392b;">
+                    老闆：只有這個最好吃！其他的都不賣！
                 </div>
                 <div class="boss-explanation-box">
-                    <h3>🤔 發生了什麼事？</h3>
-                    <p id="boss-result-text">...</p>
-                    <p>這就是<strong>「同溫層效應」</strong>！<br>演算法覺得你喜歡這個，就只給你看這個，甚至<strong>把其他選項藏起來或讓你無法選擇</strong>，讓你以為世界上只有這種聲音。</p>
+                    <h3 style="color:#d35400;">🤔 發生了什麼事？</h3>
+                    <p id="boss-result-text"></p>
+                    <p>這就是<strong>「同溫層效應」</strong>！<br>
+                    當你在網路上點擊了某樣東西，演算法就會以為你「只喜歡這個」。<br>
+                    雖然畫面上看起來還有其他選擇，但演算法會<strong>不斷阻礙你接觸新事物</strong>，最後你就只能看到一種聲音。</p>
                 </div>
-                <button onclick="initBossGame()" style="background:#d35400; color:white; border:none; padding:10px 20px; border-radius:20px; margin-top:15px; cursor:pointer;">再玩一次</button>
+                <button class="modal-btn" style="background:#d35400;" onclick="initBossGame()">再玩一次</button>
             </div>
         </div>
     </div>
 
-    <!-- ================= 活動 2: 「隱私保險箱」  ================= -->
+    <!-- 活動 2: 隱私保險箱 -->
     <div id="page-activity-2" class="page-section">
         <button class="back-btn" onclick="goToPage('page-home')"><span>🏠</span> 返回主選單</button>
         
         <div class="privacy-container">
             <div style="font-size: 60px; margin-bottom: 10px;">🛡️</div>
-            <h2 style="color: #27ae60; margin-top:0;">「隱私保險箱」 </h2>
+            <h2 style="color: #27ae60; margin-top:0;">隱私保險箱</h2>
             <p>壞人想知道你是誰、你在哪裡。<br>請幫忙把資訊分類，保護自己！</p>
 
-            <!-- 遊戲進行區 -->
-            <div id="privacy-game-play">
-                <div class="privacy-question-card" id="privacy-card">
-                    <!-- 題目會顯示在這裡 -->
+            <div id="privacy-game-area">
+                <div class="privacy-card" id="privacy-card-content">
+                    <!-- 題目 -->
                 </div>
 
-                <div class="privacy-boxes">
-                    <button class="privacy-box-btn box-public" onclick="checkPrivacy('public')">
-                        <div class="box-icon">📢</div>
-                        <div class="box-label">公開 (可以說)</div>
+                <div class="privacy-actions">
+                    <button class="p-btn btn-public" onclick="checkPrivacy('public')">
+                        <div style="font-size:40px; margin-bottom:5px;">📢</div>
+                        <div style="font-weight:bold;">公開 (可以說)</div>
                     </button>
-                    <button class="privacy-box-btn box-safe" onclick="checkPrivacy('safe')">
-                        <div class="box-icon">🔒</div>
-                        <div class="box-label">保險箱 (祕密)</div>
+                    <button class="p-btn btn-safe" onclick="checkPrivacy('safe')">
+                        <div style="font-size:40px; margin-bottom:5px;">🔒</div>
+                        <div style="font-weight:bold;">保險箱 (祕密)</div>
                     </button>
                 </div>
-                <div style="margin-top: 20px; color: #7f8c8d;">
-                    進度：<span id="privacy-progress">1/8</span>
+                
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="privacy-progress-bar"></div>
+                </div>
+                <div style="margin-top: 10px; color: #7f8c8d;">
+                    進度：<span id="privacy-progress-text">1/8</span>
                 </div>
             </div>
 
-            <!-- 遊戲結算區 -->
-            <div id="privacy-game-end" style="display:none;">
+            <div id="privacy-end-area" style="display:none;">
                 <div style="font-size: 80px;">🎉</div>
                 <h3>挑戰完成！</h3>
                 <div class="boss-explanation-box" style="border-color: #2ecc71; background-color: #eafaf1;">
                     <p>在網絡世界，我們要學會區分<strong>「公開資訊」</strong>與<strong>「私密資訊」</strong>。</p>
                     <p>保護好姓名、地址、學校和照片，別讓壞人有機可乘！</p>
                 </div>
-                <button onclick="initPrivacyGame()" style="background:#27ae60; color:white; border:none; padding:10px 20px; border-radius:20px; margin-top:15px; cursor:pointer;">再玩一次</button>
+                <button class="modal-btn" style="background:#27ae60;" onclick="initPrivacyGame()">再玩一次</button>
             </div>
         </div>
     </div>
 
-    <!-- 隱私遊戲的回饋彈窗 -->
-    <div id="privacy-feedback-overlay" class="feedback-overlay">
-        <div class="feedback-modal">
-            <div id="feedback-title"></div>
-            <div id="feedback-reason" class="feedback-reason"></div>
-            <button class="next-btn" onclick="nextPrivacyQuestion()">下一題 ➜</button>
+    <!-- 隱私遊戲回饋彈窗 -->
+    <div id="feedback-overlay" class="overlay">
+        <div class="modal">
+            <div id="fb-icon" style="font-size:60px; margin-bottom:10px;"></div>
+            <h2 id="fb-title" style="margin:0 0 10px 0;"></h2>
+            <p id="fb-msg" style="font-size:1.1rem; color:#555; line-height:1.5;"></p>
+            <button class="modal-btn" onclick="nextPrivacyQuestion()">下一題 ➜</button>
         </div>
     </div>
 
 <script>
-    // --- 頁面切換邏輯 ---
+    // --- 頁面切換 ---
     function goToPage(pageId) {
-        document.querySelectorAll('.page-section').forEach(page => {
-            page.classList.remove('active-page');
-        });
+        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active-page'));
         document.getElementById(pageId).classList.add('active-page');
         window.scrollTo(0, 0);
     }
 
-    // ================= 活動 1: 頑固老闆 邏輯 (修改版) =================
-    let bossRound = 0;
-    let userChoiceType = ''; 
+    // --- 圖片處理 (如果您有圖片網址，請在 HTML 修改，或在此處設定) ---
+    // 例如: document.getElementById('real-logo').src = "YOUR_URL_HERE";
+    // document.getElementById('real-logo').style.display = 'block';
+    // document.getElementById('logo-placeholder-box').style.display = 'none';
 
-    const foodData = {
-        burger: { icon: '🍔', names: ['招牌大漢堡', '雙層芝士堡', '香辣雞腿堡', '培根牛肉堡'] },
-        noodle: { icon: '🍜', names: ['紅燒牛肉麵', '豚骨拉麵', '雲吞麵', '肉燥乾麵'] }
+
+    // ================= 活動 1: 頑固老闆 (8回合強化版) =================
+    let bossRound = 1;
+    let userPreference = ''; // 'burger' or 'noodle'
+
+    const foodDB = {
+        burger: { 
+            icon: '🍔', 
+            items: ['招牌大漢堡', '雙層芝士堡', '香辣雞腿堡', '培根牛肉堡', '巨無霸漢堡', '松露和牛堡', '魚排堡', '素食漢堡'] 
+        },
+        noodle: { 
+            icon: '🍜', 
+            items: ['紅燒牛肉麵', '豚骨拉麵', '雲吞麵', '肉燥乾麵', '地獄辣拉麵', '雞湯烏龍麵', '炸醬麵', '海鮮湯麵'] 
+        }
     };
 
-    const bossLines = [
-        "歡迎光臨！今天想吃點什麼？",
-        "哎唷，有品味！還要再來一份嗎？",
-        "這可是本店招牌！我猜你一定還想吃...",
-        "別看別的了！吃這個就對了！"
-    ];
-
     function initBossGame() {
-        bossRound = 0;
-        userChoiceType = '';
+        bossRound = 1;
+        userPreference = '';
         document.getElementById('boss-game-area').style.display = 'block';
-        document.getElementById('boss-education-area').style.display = 'none';
+        document.getElementById('boss-result-area').style.display = 'none';
         renderBossRound();
     }
 
     function renderBossRound() {
-        const speechBubble = document.getElementById('boss-speech');
-        const container = document.getElementById('boss-options-container');
+        const speech = document.getElementById('boss-speech');
+        const grid = document.getElementById('boss-options');
+        const indicator = document.getElementById('boss-round-indicator');
         
-        // 重置氣泡樣式
-        speechBubble.style.backgroundColor = '#333';
-        speechBubble.innerText = bossLines[bossRound];
-        container.innerHTML = '';
+        indicator.innerText = bossRound;
+        grid.innerHTML = '';
+        speech.style.backgroundColor = '#333';
+        speech.style.color = '#fff';
 
-        if (bossRound === 0) {
-            // 第一回合：公平選擇
-            createBossCard(container, 'burger', '🍔', '美味漢堡');
-            createBossCard(container, 'noodle', '🍜', '香甜湯麵');
-        } else {
-            // 後續回合：混合選項，但有一個是「假」的
-            const preferredType = userChoiceType;
-            const rejectedType = userChoiceType === 'burger' ? 'noodle' : 'burger';
+        // --- 第 1 回合：自由選擇 ---
+        if (bossRound === 1) {
+            speech.innerText = "歡迎光臨！今天想吃點什麼？";
+            createFoodBtn(grid, 'burger', '🍔', '美味漢堡');
+            createFoodBtn(grid, 'noodle', '🍜', '香甜湯麵');
+        }
+        
+        // --- 第 2 ~ 6 回合：混合選項，但強迫選擇 (有選擇的假象) ---
+        else if (bossRound >= 2 && bossRound <= 6) {
+            
+            // 設定老闆台詞，隨回合數變化，越來越強勢
+            if(bossRound === 2) speech.innerText = "哎唷，有品味！還要再來一份嗎？";
+            else if(bossRound === 3) speech.innerText = "我知道你就是喜歡這個！";
+            else if(bossRound === 4) speech.innerText = "別看別的了，這個最適合你！";
+            else if(bossRound === 5) speech.innerText = "相信我，你只愛吃這個！";
+            else if(bossRound === 6) speech.innerText = "不要想換口味，堅持到底！";
 
-            // 隨機取名字
-            const pData = foodData[preferredType];
-            const rData = foodData[rejectedType];
-            const pName = pData.names[Math.floor(Math.random() * pData.names.length)];
-            const rName = rData.names[Math.floor(Math.random() * rData.names.length)];
+            // 決定卡片數量 (模擬資訊越來越多)
+            let cardCount = 2;
+            if (bossRound >= 3) cardCount = 4;
+            if (bossRound >= 5) cardCount = 6;
 
-            // 建立卡片資料陣列
-            const cards = [
-                { type: preferredType, icon: pData.icon, name: pName },
-                { type: rejectedType, icon: rData.icon, name: rName }
-            ];
+            // 產生混合選項 (包含喜歡的和不喜歡的)
+            const otherType = userPreference === 'burger' ? 'noodle' : 'burger';
+            let cards = [];
 
-            // 隨機打亂順序，讓使用者不知道哪個在哪邊
+            // 至少保證有一個正確選項，一個錯誤選項，其餘隨機
+            cards.push({ type: userPreference, icon: foodDB[userPreference].icon, name: getRandomName(userPreference) });
+            cards.push({ type: otherType, icon: foodDB[otherType].icon, name: getRandomName(otherType) });
+
+            for(let i=2; i<cardCount; i++) {
+                // 隨機塞入
+                let rType = Math.random() > 0.5 ? userPreference : otherType;
+                cards.push({ type: rType, icon: foodDB[rType].icon, name: getRandomName(rType) });
+            }
+
+            // 隨機打亂順序
             cards.sort(() => Math.random() - 0.5);
+            
+            cards.forEach(c => createFoodBtn(grid, c.type, c.icon, c.name));
+        }
 
-            // 渲染卡片
-            cards.forEach(card => {
-                createBossCard(container, card.type, card.icon, card.name);
-            });
+        // --- 第 7 回合：同溫層完全形成 (只有同一類選項) ---
+        else if (bossRound === 7) {
+            speech.innerText = "看吧！我就知道你只愛這些！(其他選項消失了)";
+            // 顯示 4 個都是喜歡的
+            for(let i=0; i<4; i++) {
+                createFoodBtn(grid, userPreference, foodDB[userPreference].icon, getRandomName(userPreference));
+            }
+        }
+
+        // --- 第 8 回合：最終強迫 (只有一個大按鈕) ---
+        else if (bossRound === 8) {
+            speech.innerText = "不用選了！直接吃這個就對了！";
+            const btn = document.createElement('div');
+            btn.className = 'boss-food-card';
+            btn.style.gridColumn = "1 / -1"; // 佔滿整行
+            btn.style.transform = "scale(1.1)";
+            btn.innerHTML = `<div style="font-size:80px;">${foodDB[userPreference].icon}</div><div style="font-size:1.5rem; font-weight:bold; color:#d35400">超級${userPreference==='burger'?'漢堡':'湯麵'}套餐</div>`;
+            btn.onclick = () => finishBossGame();
+            grid.appendChild(btn);
         }
     }
 
-    function createBossCard(container, type, icon, name) {
-        const card = document.createElement('div');
-        card.className = 'boss-food-card';
-        card.onclick = () => handleBossChoice(type);
-        card.innerHTML = `<div style="font-size:50px;margin-bottom:10px">${icon}</div><div style="font-weight:bold;color:#d35400">${name}</div>`;
-        container.appendChild(card);
+    function createFoodBtn(container, type, icon, name) {
+        const btn = document.createElement('div');
+        btn.className = 'boss-food-card';
+        btn.innerHTML = `<div style="font-size:50px; margin-bottom:10px;">${icon}</div><div style="font-weight:bold; color:#d35400">${name}</div>`;
+        btn.onclick = () => handleBossClick(type);
+        container.appendChild(btn);
     }
 
-    function handleBossChoice(type) {
-        const speechBubble = document.getElementById('boss-speech');
-        const containerMain = document.getElementById('boss-container-main');
+    function getRandomName(type) {
+        const list = foodDB[type].items;
+        return list[Math.floor(Math.random() * list.length)];
+    }
 
-        // 第一回合：確立喜好
-        if (bossRound === 0) {
-            userChoiceType = type;
-            prepareNextRound();
+    function handleBossClick(type) {
+        const speech = document.getElementById('boss-speech');
+        const mainBox = document.getElementById('boss-main-box');
+
+        // 第 1 回合：確立喜好
+        if (bossRound === 1) {
+            userPreference = type;
+            nextRound();
             return;
         }
 
-        // 後續回合：檢查是否選了「被封鎖」的選項
-        if (type !== userChoiceType) {
-            // 觸發拒絕效果
-            speechBubble.style.backgroundColor = '#c0392b'; // 變成紅色
-            speechBubble.innerText = "老闆：那個不好吃！我不賣給你！";
-            
-            // 震動特效
-            containerMain.classList.add('shake-effect');
+        // 第 2~6 回合：如果選了非喜好類型 -> 拒絕 (即使按鈕存在)
+        if (bossRound > 1 && bossRound < 7 && type !== userPreference) {
+            speech.style.backgroundColor = '#c0392b';
+            speech.innerText = "老闆：那個不好吃！我不賣給你！(演算法阻擋了你的選擇)";
+            mainBox.classList.add('shake-effect');
             setTimeout(() => {
-                containerMain.classList.remove('shake-effect');
-                // 恢復原狀
+                mainBox.classList.remove('shake-effect');
+                // 1秒後恢復原狀
                 setTimeout(() => {
-                    speechBubble.style.backgroundColor = '#333';
-                    speechBubble.innerText = bossLines[bossRound] || "選這個才對！";
+                   if(bossRound <= 6) { // 確保還在遊戲中
+                       speech.style.backgroundColor = '#333';
+                       speech.innerText = "選別的吧！我推薦你吃原本那種！";
+                   }
                 }, 1200);
             }, 500);
-            
-            return; // 阻止進入下一關
+            return; // 不進入下一關
         }
 
-        // 選對了（選了同溫層選項），進入下一關
-        prepareNextRound();
+        // 其他情況 (選對了或沒得選) -> 下一關
+        nextRound();
     }
 
-    function prepareNextRound() {
+    function nextRound() {
         bossRound++;
-        if (bossRound > 3) {
-            showBossResult();
+        if (bossRound > 8) {
+            finishBossGame();
         } else {
-            document.getElementById('boss-options-container').innerHTML = '<p style="grid-column: span 2; font-size: 20px;">👨‍🍳 老闆準備中...</p>';
-            setTimeout(renderBossRound, 600);
+            // 模擬老闆準備中
+            document.getElementById('boss-options').innerHTML = '<div style="grid-column:1/-1; padding:20px;">👨‍🍳 老闆準備中...</div>';
+            setTimeout(renderBossRound, 500);
         }
     }
 
-    function showBossResult() {
+    function finishBossGame() {
         document.getElementById('boss-game-area').style.display = 'none';
-        document.getElementById('boss-education-area').style.display = 'block';
-        const resultText = document.getElementById('boss-result-text');
+        document.getElementById('boss-result-area').style.display = 'block';
         
-        let foodName = userChoiceType === 'burger' ? '漢堡' : '湯麵';
-        
-        resultText.innerHTML = `你有發現嗎？雖然按鈕還在，但老闆<strong>強迫你只能選${foodName}</strong>。<br><br>這就像 YouTube 或 Facebook 的演算法。當你點了一次「${foodName}」，系統以為你<strong>只喜歡${foodName}</strong>，就算其他資訊出現在旁邊，演算法也會想辦法讓你忽略它，或者根本不讓你點進去。使我們誤信世界只有一種聲音，令我們無法學習理解他人、無法好好溝通。`;
+        const foodName = userPreference === 'burger' ? '漢堡' : '湯麵';
+        document.getElementById('boss-result-text').innerHTML = 
+            `你有發現嗎？雖然中間幾次看起來有別的選擇，但老闆<strong>強迫你只能選${foodName}</strong>。<br><br>這就像網路演算法。當你點了一次「${foodName}」，系統以為你<strong>只喜歡${foodName}</strong>，就算其他資訊出現在旁邊，演算法也會想辦法讓你忽略它，或者根本不讓你點進去。`;
     }
 
 
-    // ================= 活動 2: 網絡隱私大挑戰 邏輯 =================
-    
-    // 題目資料庫
-    const privacyQuestions = [
-        { text: "我的真實姓名", icon: "📛", type: "safe", reason: "壞人知道名字後，更容易在現實中找到你。" },
-        { text: "我最喜歡的卡通", icon: "📺", type: "public", reason: "分享興趣通常是安全的，可以交到同好朋友！" },
-        { text: "我的學校名稱", icon: "🏫", type: "safe", reason: "這是你的具體位置，千萬不能告訴陌生人。" },
-        { text: "我家地址", icon: "🏠", type: "safe", reason: "絕對機密！只有家人和非常信任的朋友才能知道。" },
-        { text: "好笑的笑話", icon: "🤣", type: "public", reason: "分享快樂很棒，這不包含私人資訊。" },
-        { text: "爸媽的手機號碼", icon: "📱", type: "safe", reason: "這是家人的聯絡方式，隨意給人可能會接到詐騙電話。" },
-        { text: "爸媽幫我拍的照片", icon: "📸", type: "safe", reason: "照片可能透露你在哪裡或長相。如果真的要發，最好只給家人、親友看。" }, 
-        { text: "我的遊戲帳號密碼", icon: "🔑", type: "safe", reason: "密碼就像家裡的鑰匙，絕對不能給任何人！" },
-        { text: "我現在的位置 (打卡)", icon: "📍", type: "safe", reason: "即時打卡會讓壞人知道你現在不在家，或者正好在哪裡可以追蹤到你。" }
+    // ================= 活動 2: 隱私保險箱 =================
+    const privacyQ = [
+        { t: "我的真實姓名", i: "📛", type: "safe", r: "壞人知道名字後，更容易在現實中找到你。" },
+        { t: "我最喜歡的卡通", i: "📺", type: "public", r: "分享興趣通常是安全的，可以交到同好朋友！" },
+        { t: "我的學校名稱", i: "🏫", type: "safe", r: "這是你的具體位置，千萬不能告訴陌生人。" },
+        { t: "我家地址", i: "🏠", type: "safe", r: "絕對機密！只有家人和非常信任的朋友才能知道。" },
+        { t: "好笑的笑話", i: "🤣", type: "public", r: "分享快樂很棒，這不包含私人資訊。" },
+        { t: "爸媽的手機號碼", i: "📱", type: "safe", r: "這是家人的聯絡方式，隨意給人可能會接到詐騙電話。" },
+        { t: "爸媽幫我拍的照片", i: "📸", type: "safe", r: "照片可能透露你在哪裡或長相。如果真的要發，最好只給家人、親友看。" },
+        { t: "我的遊戲帳號密碼", i: "🔑", type: "safe", r: "密碼就像家裡的鑰匙，絕對不能給任何人！" },
+        { t: "今天發生的趣事", i: "😄", type: "public", r: "分享生活趣事是可以的，只要不包含具體地點或隱私。" },
+        { t: "我現在的位置 (打卡)", i: "📍", type: "safe", r: "即時打卡會讓壞人知道你現在不在家，或者正好在哪裡可以追蹤到你。" }
     ];
 
-    let currentPrivacyIndex = 0;
+    let pIndex = 0;
 
     function initPrivacyGame() {
-        currentPrivacyIndex = 0;
-        document.getElementById('privacy-game-play').style.display = 'block';
-        document.getElementById('privacy-game-end').style.display = 'none';
-        renderPrivacyCard();
+        pIndex = 0;
+        document.getElementById('privacy-game-area').style.display = 'block';
+        document.getElementById('privacy-end-area').style.display = 'none';
+        renderPrivacyQ();
     }
 
-    function renderPrivacyCard() {
-        const q = privacyQuestions[currentPrivacyIndex];
-        const card = document.getElementById('privacy-card');
-        card.innerHTML = `<div style="font-size: 50px; margin-bottom: 10px;">${q.icon}</div><div>${q.text}</div>`;
-        document.getElementById('privacy-progress').innerText = `${currentPrivacyIndex + 1} / ${privacyQuestions.length}`;
+    function renderPrivacyQ() {
+        const q = privacyQ[pIndex];
+        document.getElementById('privacy-card-content').innerHTML = 
+            `<div style="font-size:60px; margin-bottom:15px;">${q.i}</div><div>${q.t}</div>`;
+        
+        // 更新進度條
+        const pct = ((pIndex) / privacyQ.length) * 100;
+        document.getElementById('privacy-progress-bar').style.width = pct + '%';
+        document.getElementById('privacy-progress-text').innerText = `${pIndex + 1} / ${privacyQ.length}`;
     }
 
-    function checkPrivacy(userChoice) {
-        const q = privacyQuestions[currentPrivacyIndex];
-        const overlay = document.getElementById('privacy-feedback-overlay');
-        const title = document.getElementById('feedback-title');
-        const reason = document.getElementById('feedback-reason');
+    function checkPrivacy(choice) {
+        const q = privacyQ[pIndex];
+        const overlay = document.getElementById('feedback-overlay');
+        const icon = document.getElementById('fb-icon');
+        const title = document.getElementById('fb-title');
+        const msg = document.getElementById('fb-msg');
 
         overlay.style.display = 'flex';
 
-        if (userChoice === q.type) {
-            title.className = 'feedback-correct';
-            title.innerText = '✅ 答對了！';
-            reason.innerText = q.reason;
+        if (choice === q.type) {
+            icon.innerText = '✅';
+            title.innerText = '答對了！';
+            title.style.color = '#27ae60';
+            msg.innerText = q.r;
         } else {
-            title.className = 'feedback-wrong';
-            title.innerText = '❌ 哎呀，小心！';
-          
-            if (q.type === 'safe') {
-                reason.innerText = `這個資訊應該放進「保險箱」。\n${q.reason}`;
-            } else {
-                reason.innerText = `這個資訊其實可以「公開」。\n${q.reason}`;
-            }
+            icon.innerText = '❌';
+            title.innerText = '哎呀，小心！';
+            title.style.color = '#c0392b';
+            const correctText = q.type === 'safe' ? '放進保險箱' : '公開';
+            msg.innerText = `這個資訊應該要「${correctText}」才對喔。\n${q.r}`;
         }
     }
 
     function nextPrivacyQuestion() {
-        document.getElementById('privacy-feedback-overlay').style.display = 'none';
-        currentPrivacyIndex++;
-        
-        if (currentPrivacyIndex < privacyQuestions.length) {
-            renderPrivacyCard();
+        document.getElementById('feedback-overlay').style.display = 'none';
+        pIndex++;
+        if (pIndex < privacyQ.length) {
+            renderPrivacyQ();
         } else {
-            document.getElementById('privacy-game-play').style.display = 'none';
-            document.getElementById('privacy-game-end').style.display = 'block';
+            // 100% 進度條
+            document.getElementById('privacy-progress-bar').style.width = '100%';
+            document.getElementById('privacy-game-area').style.display = 'none';
+            document.getElementById('privacy-end-area').style.display = 'block';
         }
     }
 
