@@ -515,7 +515,7 @@
 
         // --- 第 7 回合：同溫層完全形成 (只有同一類選項) ---
         else if (bossRound === 7) {
-            speech.innerText = "看吧！我就知道你只愛這些！(其他選項消失了)";
+            speech.innerText = "看吧！我就知道你只愛這些！";
             // 顯示 4 個都是喜歡的
             for(let i=0; i<4; i++) {
                 createFoodBtn(grid, userPreference, foodDB[userPreference].icon, getRandomName(userPreference));
@@ -562,7 +562,7 @@
         // 第 2~6 回合：如果選了非喜好類型 -> 拒絕 (即使按鈕存在)
         if (bossRound > 1 && bossRound < 7 && type !== userPreference) {
             speech.style.backgroundColor = '#c0392b';
-            speech.innerText = "老闆：那個不好吃！我不賣給你！(演算法阻擋了你的選擇)";
+            speech.innerText = "老闆：那個不好吃！我不賣給你！";
             mainBox.classList.add('shake-effect');
             setTimeout(() => {
                 mainBox.classList.remove('shake-effect');
