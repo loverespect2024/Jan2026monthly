@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>友愛童盟 1月月刊 - 新年新挑戰</title>
+<title>友愛童盟2026年1月月刊 - 新年新挑戰</title>
 <style>
     :root {
         --primary-color: #4a90e2;
@@ -39,25 +39,8 @@
     .logo-img {
         max-width: 90%;
         height: auto;
-        max-height: 120px; /* 稍微放寬高度限制 */
+        max-height: 120px; /* 限制 Logo 高度 */
         object-fit: contain;
-    }
-
-    /* 圖片佔位框 (若無圖片時顯示) */
-    .logo-placeholder {
-        width: 90%;
-        max-width: 800px;
-        height: 80px;
-        background-color: #f8f9fa;
-        border: 2px dashed #bdc3c7;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #7f8c8d;
-        border-radius: 10px;
-        text-align: center;
-        font-size: 0.9rem;
-        padding: 10px;
     }
 
     /* --- 通用頁面樣式 --- */
@@ -296,11 +279,10 @@
 </head>
 <body>
 
-
-<div class="logo-header">
-    <!-- src="這裡填你的圖片檔名" -->
-    <img src="https://i.ibb.co/QjK7vhQY/90.png" class="logo-img" alt="機構 Logo">
-</div>
+    <!-- Logo Header (已修改：移除佔位框，加入Logo) -->
+    <div class="logo-header">
+        <img src="https://i.ibb.co/QjK7vhQY/90.png" class="logo-img" id="real-logo" alt="友愛童盟 Logo">
+    </div>
 
     <!-- 主選單 -->
     <div id="page-home" class="page-section active-page">
@@ -428,12 +410,6 @@
         window.scrollTo(0, 0);
     }
 
-    // --- 圖片處理 (如果您有圖片網址，請在 HTML 修改，或在此處設定) ---
-    // 例如: document.getElementById('real-logo').src = "YOUR_URL_HERE";
-    // document.getElementById('real-logo').style.display = 'block';
-    // document.getElementById('logo-placeholder-box').style.display = 'none';
-
-
     // ================= 活動 1: 頑固老闆 (8回合強化版) =================
     let bossRound = 1;
     let userPreference = ''; // 'burger' or 'noodle'
@@ -511,7 +487,7 @@
 
         // --- 第 7 回合：同溫層完全形成 (只有同一類選項) ---
         else if (bossRound === 7) {
-            speech.innerText = "看吧！我就知道你只愛這些！";
+            speech.innerText = "看吧！我就知道你只愛這些！(其他選項消失了)";
             // 顯示 4 個都是喜歡的
             for(let i=0; i<4; i++) {
                 createFoodBtn(grid, userPreference, foodDB[userPreference].icon, getRandomName(userPreference));
@@ -558,7 +534,7 @@
         // 第 2~6 回合：如果選了非喜好類型 -> 拒絕 (即使按鈕存在)
         if (bossRound > 1 && bossRound < 7 && type !== userPreference) {
             speech.style.backgroundColor = '#c0392b';
-            speech.innerText = "老闆：那個不好吃！我不賣給你！";
+            speech.innerText = "老闆：那個不好吃！我不賣給你！(演算法阻擋了你的選擇)";
             mainBox.classList.add('shake-effect');
             setTimeout(() => {
                 mainBox.classList.remove('shake-effect');
